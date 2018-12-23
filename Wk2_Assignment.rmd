@@ -1,0 +1,27 @@
+---
+title: "Coursera - JHSPH - Data Products Wk2 Assignment"
+author: "prog.bouillet"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Page Created on: `r format(Sys.Date(), "%B %e, %Y")`
+
+This map shows locations and names of many universities in the USA.
+
+```{r, echo=FALSE}
+library(leaflet)
+library(dplyr, warn.conflicts = FALSE)
+
+my_map <- leaflet() %>% addTiles()
+
+a <- read.csv("Data_12-23-2018.csv")
+df = select(a,lat=Latitude.location.of.institution..HD2017.,lng=Longitude.location.of.institution..HD2017.)
+nms = select(a,name=Institution.Name)
+
+addMarkers(my_map, lat=df$lat, lng=df$lng, popup = nms$name, clusterOptions = markerClusterOptions())
+```
+
